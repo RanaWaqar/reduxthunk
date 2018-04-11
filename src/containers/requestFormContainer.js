@@ -51,7 +51,6 @@ const mapdispatchedToProps = (dispatch) => {
 	return {
 		onClick: (event) => {
 			event.preventDefault();
-			dispatch(actions.startRequest());
 			dispatch(saveData(postBody));
 			
 			},

@@ -7,12 +7,12 @@ import * as actions from '../actions/addItem';
 export default class RootComponent extends Component {
 	componentWillMount(){
 		const dispatch = this.props.dispatch;
-		dispatch(actions.startRequest());
 		dispatch(actions.getRequestToAPI());
 	}
 
 	render(){
 		let props = this.props;
+		console.log('render = ', props)
 		return (
 			<div>
 				<RequestedForm onClick={props.onClick.bind(this)} onKeyUp={props.onKeyUp.bind(this)} onChange={props.onChange.bind(this)} genderOptions={this.props.genderOptions}/>
