@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import RootComponent from '../components/index';
-import {startRequest, requestResponses, handleError} from '../actions/addItem';
-import axios from 'axios';
+import * as actions from '../actions/addItem';
+
 
 const mapStateToProps = (state) => {
 		return {
@@ -14,42 +14,29 @@ const mapStateToProps = (state) => {
 		}
 }
 
-const fetchedData = function(dispatch){
-	axios.get('http://rest.learncode.academy/api/waqar/waqarpractice')
-				.then((response) => {
-					dispatch(requestResponses(response.data));
-				})
-				.catch((error) => {
-					dispatch(handleError(error))
-				});
-}
 
-const saveData = function(dispatch, body){
-	
-	let error = false; 
-	let field = ''
-	
-	for(let fields in body){
-		if(!body[fields]){
-		error = true;
-		field = fields;
-		break;			
+const saveData = function(body){
+	return (dispatch, getState) => {
+				let error = false; 
+     			let field = ''
+			
+			for(let fields in body){
+				if(!body[fields]){
+				error = true;
+				field = fields;
+				break;			
+				}
+				
+			}
+			
+			if(error){
+				dispatch(actions.handleError({message: `Please enter your ${field}`}));
+				return;
+			}
+
+			dispatch(actions.postRequestToAPI(body));	
 		}
-		
-	}
 	
-	if(error){
-		dispatch(handleError({message: `Please enter your ${field}`}));
-		return;
-	}
-
-	axios.post('http://rest.learncode.academy/api/waqar/waqarpractice', body)
-				.then((response) => {
-					fetchedData(dispatch)
-				})
-				.catch((error) => {
-					dispatch(handleError(error))
-				});
 }
 
 const mapdispatchedToProps = (dispatch) => {
@@ -64,8 +51,8 @@ const mapdispatchedToProps = (dispatch) => {
 	return {
 		onClick: (event) => {
 			event.preventDefault();
-			dispatch(startRequest());
-			saveData(dispatch, postBody);
+			dispatch(actions.startRequest());
+			dispatch(saveData(postBody));
 			
 			},
 		onChange: (event) => {

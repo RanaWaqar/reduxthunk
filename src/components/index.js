@@ -1,21 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
-import axios from 'axios';
 
 import RequestedForm from './requestForm';
-import {startRequest, requestResponses, handleError} from '../actions/addItem';
+import * as actions from '../actions/addItem';
 
 export default class RootComponent extends Component {
 	componentWillMount(){
 		const dispatch = this.props.dispatch;
-		dispatch(startRequest());
-			axios.get('http://rest.learncode.academy/api/waqar/waqarpractice')
-				.then((response) => {		
-					dispatch(requestResponses(response.data));
-				})
-				.catch((error) => {
-					dispatch(handleError(error))
-				});
+		dispatch(actions.startRequest());
+		dispatch(actions.getRequestToAPI());
 	}
 
 	render(){
