@@ -12,7 +12,6 @@ export default class RootComponent extends Component {
 
 	render(){
 		let props = this.props;
-		console.log('render = ', props)
 		return (
 			<div>
 				<RequestedForm onClick={props.onClick.bind(this)} onKeyUp={props.onKeyUp.bind(this)} onChange={props.onChange.bind(this)} genderOptions={this.props.genderOptions}/>
